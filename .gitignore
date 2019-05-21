@@ -1,0 +1,6 @@
+user-keys/*
+!user-keys/.keep
+downloads/*
+!downloads/.keep
+.DS_Store
+users.yml

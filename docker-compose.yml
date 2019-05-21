@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    entrypoint: ./docker-entrypoint.sh
+    command: bash
+    env_file:
+      - application.env
+    volumes:
+      - bundle_cache:/bundle
+      - .:/app
+    depends_on:
+      - selenium
+    stdin_open: true
+    tty: true
+
+  selenium:
+    image: selenium/standalone-firefox-debug
+    ports:
+      - 4444:4444
+      - 5900:5900
+    volumes:
+      - ./user-keys:/user-keys
+      - ./downloads:/downloads
+    stdin_open: true
+    tty: true
+
+volumes:
+  bundle_cache:
