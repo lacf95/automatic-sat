@@ -1,6 +1,7 @@
-user-keys/*
-!user-keys/.keep
+user-credentials/*
+!user-credentials/.keep
 downloads/*
 !downloads/.keep
 .DS_Store
 users.yml
+.bundle/

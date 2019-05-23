@@ -58,7 +58,7 @@ class AutomaticSat::Invoice
 
   def go_to_voucher_section
     driver.find_element(css: '.btn.btn-primary').click
-    sleep 2
+    sleep 3
   end
 
   def add_concept(amount, description)
@@ -112,6 +112,11 @@ class AutomaticSat::Invoice
     driver.find_element(id: 'certificate').send_keys @invoice_args[:certificate_path]
     driver.find_element(id: 'privateKey').send_keys @invoice_args[:private_key_path]
     driver.find_element(id: 'privateKeyPassword').send_keys @invoice_args[:private_key_password]
+
+    validate_user
+  end
+
+  def validate_user
     driver.find_element(id: 'btnValidaOSCP').click
     sleep 3
 
