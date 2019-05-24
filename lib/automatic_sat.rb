@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'yaml'
-
 class AutomaticSat
   attr_reader :users
 
@@ -60,6 +58,10 @@ class AutomaticSat
     File.open(file, &:readline)
   end
 end
+
+require 'selenium-webdriver'
+require 'yaml'
+require 'pry' unless ENV['ENV'] == 'production'
 
 require_relative 'automatic_sat/logger'
 require_relative 'automatic_sat/driver'

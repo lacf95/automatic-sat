@@ -4,5 +4,8 @@ source 'https://rubygems.org'
 
 ruby '2.6.3'
 
-gem 'pry'
 gem 'selenium-webdriver'
+
+group :development, :test do
+  gem 'pry'
+end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'selenium-webdriver'
-
 class AutomaticSat::Invoice
   attr_accessor :driver
 
