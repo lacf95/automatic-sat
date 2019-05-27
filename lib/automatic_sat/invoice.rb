@@ -16,6 +16,7 @@ class AutomaticSat::Invoice
     validate_voucher
     enter_confirmation_user_credentials
     download_files
+    invoice_name
   end
 
   private
@@ -125,5 +126,9 @@ class AutomaticSat::Invoice
   def download_files
     driver.find_element(css: 'span[title="Descargar archivo XML"]').click
     driver.find_element(css: 'span[title="Descargar representación impresa"]').click
+  end
+
+  def invoice_name
+    driver.find_element(id: 'FolioFiscalValue').text
   end
 end

@@ -3,27 +3,37 @@
 class AutomaticSat
   attr_reader :users
 
-  def initialize(users_file = './users.yml', credentials_path = './user-credentials')
+  def initialize(users_file = './users.yml', credentials_path = './user-credentials', downloads_path='./downloads')
     file = File.read(users_file)
     @users = YAML.safe_load(file, [Symbol])
     @credentials_path = Pathname.new(credentials_path)
+    @downloads_path = Pathname.new(downloads_path)
+    @mailer = AutomaticSat::Mailer.new([], @downloads_path)
   end
 
   def generate_invoices
-    users.each do |user|
+    users.map do |user|
       credentials = user_credentials(user)
-      user[:invoices].each do |invoice_info|
-        driver = AutomaticSat::Driver.create
-        invoice = new_invoice(driver, credentials, invoice_info)
+      user[:invoices].map do |invoice_info|
         AutomaticSat::Logger.log.info "AutomaticSat - Creating #{user[:name]}'s invoice for #{invoice_info[:customer_name]} for a total of #{invoice_info[:amount]} MXN"
-        invoice.create
-        driver.quit
+        invoice_name = generate_invoice(credentials, invoice_info)
         AutomaticSat::Logger.log.info "AutomaticSat - Created #{user[:name]}'s invoice for #{invoice_info[:customer_name]} for a total of #{invoice_info[:amount]} MXN"
+        AutomaticSat::Logger.log.info "AutomaticSat - Sending email for #{user[:name]}'s invoice for #{invoice_info[:customer_name]} for a total of #{invoice_info[:amount]} MXN"
+        @mailer.to = [{ email: user[:email], name: user[:name] }, { email: invoice_info[:customer_email], name: invoice_info[:customer_name] }]
+        @mailer.send_invoice_email(invoice_info[:description], invoice_name)
       end
     end
   end
 
   private
+
+  def generate_invoice(credentials, invoice_info)
+    driver = AutomaticSat::Driver.create
+    invoice = new_invoice(driver, credentials, invoice_info)
+    invoice_name = invoice.create
+    driver.quit
+    invoice_name
+  end
 
   def new_invoice(driver, credentials, invoice_info)
     AutomaticSat::Invoice.new(
@@ -61,9 +71,12 @@ end
 
 require 'selenium-webdriver'
 require 'yaml'
+require 'sendgrid-ruby'
+require 'json'
 require 'pry' unless ENV['ENV'] == 'production'
 
 require_relative 'automatic_sat/logger'
 require_relative 'automatic_sat/driver'
 require_relative 'automatic_sat/invoice'
 require_relative 'automatic_sat/file_searcher'
+require_relative 'automatic_sat/mailer'
