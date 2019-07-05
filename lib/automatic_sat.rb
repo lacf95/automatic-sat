@@ -3,7 +3,7 @@
 class AutomaticSat
   attr_reader :users
 
-  def initialize(users_file = './users.yml', credentials_path = './user-credentials', downloads_path='./downloads')
+  def initialize(users_file = './users.yml', credentials_path = './user-credentials', downloads_path = './downloads')
     file = File.read(users_file)
     @users = YAML.safe_load(file, [Symbol])
     @credentials_path = Pathname.new(credentials_path)

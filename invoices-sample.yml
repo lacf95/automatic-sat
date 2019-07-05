@@ -1,0 +1,23 @@
+# Sample invoice file
+---
+- :rfc: your_rfc
+  :name: your_name
+  :email: your_email
+  :invoices:
+    - :customer_name: their_name_as_shown_in_sat
+      :customer_email: their_email
+      :amount: invoice_amount
+      :description: invoice_description
+    - :customer_name: another_their_name_as_shown_in_sat
+      :customer_email: another_their_email
+      :amount: another_invoice_amount
+      :description: another_invoice_description
+
+- :rfc: another_rfc
+  :name: another_name
+  :email: another_email
+  :invoices:
+    - :customer_name: their_name_as_shown_in_sat
+      :customer_email: their_email
+      :amount: invoice_amount
+      :description: invoice_description

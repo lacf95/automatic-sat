@@ -6,3 +6,4 @@ downloads/*
 users.yml
 .bundle/
 *.gem
+tags
