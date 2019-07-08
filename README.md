@@ -28,6 +28,7 @@ foo@bar:~$ cd automatic-sat
 
 ```console
 foo@bar:automatic-sat$ docker-compose build
+foo@bar:automatic-sat$ docker-compose pull
 ```
 
 ## Credentials Setup
@@ -56,10 +57,10 @@ SENDGRID_FROM_EMAIL=your_email
 
 ## Invoice Generation
 
-You can use the `invoices-sample.yml` as template for your invoices
+You can use the `invoices/sample.yml` as template for your invoices
 
 ```console
-foo@bar:automatic-sat$ cp invoices-sample.yml 2019_july.yml
+foo@bar:automatic-sat$ cp invoices/sample.yml invoices/2019_july.yml
 ```
 
 Then configure as needed.
@@ -67,11 +68,11 @@ Then configure as needed.
 Once configured your invoices file you can execute the invoice generate script
 
 ```console
-foo@bar:automatic-sat$ docker-compose run client ruby generate_invoices.rb 2019_july.yml
+foo@bar:automatic-sat$ docker-compose run client ruby generate_invoices.rb invoices/2019_july.yml
 ```
 
 You can pass as many files as required
 
 ```console
-foo@bar:automatic-sat$ docker-compose run client ruby generate_invoices.rb 2019_july.yml 2019_august.yml 2019_september.yml
+foo@bar:automatic-sat$ docker-compose run client ruby generate_invoices.rb invoices/2019_july.yml invoices/2019_august.yml
 ```

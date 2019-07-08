@@ -11,4 +11,25 @@ class AutomaticSat::Logger
     end
     @logger
   end
+
+  def self.invoice_start(user_name, customer_name, amount)
+    format(
+      'AutomaticSat - Creating %s\'s invoice for %s for a total of %s MXN',
+      user_name, customer_name, amount
+    )
+  end
+
+  def self.invoice_end(user_name, customer_name, amount)
+    format(
+      'AutomaticSat - Created %s\'s invoice for %s for a total of %s MXN',
+      user_name, customer_name, amount
+    )
+  end
+
+  def self.invoice_email(user_name, customer_name, amount)
+    format(
+      'AutomaticSat - Sending email for %s\'s invoice for %s for a total of %s MXN',
+      user_name, customer_name, amount
+    )
+  end
 end

@@ -15,6 +15,6 @@ ENV PATH="${BUNDLE_BIN}:${PATH}"
 
 COPY . ./
 
-RUN gem install bundler
+RUN gem install bundler:2.0.1
 
 RUN chmod +x ./docker-entrypoint.sh

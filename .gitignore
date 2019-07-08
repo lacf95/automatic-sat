@@ -3,7 +3,8 @@ user-credentials/*
 downloads/*
 !downloads/.keep
 .DS_Store
-users.yml
 .bundle/
 *.gem
 tags
+invoices/*
+!invoices/sample.yml

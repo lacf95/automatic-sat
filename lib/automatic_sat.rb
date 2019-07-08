@@ -12,13 +12,13 @@ class AutomaticSat
   end
 
   def generate_invoices
-    users.map do |user|
+    users.each do |user|
       credentials = user_credentials(user)
-      user[:invoices].map do |invoice_info|
-        AutomaticSat::Logger.log.info "AutomaticSat - Creating #{user[:name]}'s invoice for #{invoice_info[:customer_name]} for a total of #{invoice_info[:amount]} MXN"
+      user[:invoices].each do |invoice_info|
+        AutomaticSat::Logger.log.info(AutomaticSat::Logger.invoice_start(user[:name], invoice_info[:customer_name], invoice_info[:amount]))
         invoice_name = generate_invoice(credentials, invoice_info)
-        AutomaticSat::Logger.log.info "AutomaticSat - Created #{user[:name]}'s invoice for #{invoice_info[:customer_name]} for a total of #{invoice_info[:amount]} MXN"
-        AutomaticSat::Logger.log.info "AutomaticSat - Sending email for #{user[:name]}'s invoice for #{invoice_info[:customer_name]} for a total of #{invoice_info[:amount]} MXN"
+        AutomaticSat::Logger.log.info(AutomaticSat::Logger.invoice_end(user[:name], invoice_info[:customer_name], invoice_info[:amount]))
+        AutomaticSat::Logger.log.info(AutomaticSat::Logger.invoice_email(user[:name], invoice_info[:customer_name], invoice_info[:amount]))
         @mailer.to = [{ email: user[:email], name: user[:name] }, { email: invoice_info[:customer_email], name: invoice_info[:customer_name] }]
         @mailer.send_invoice_email(invoice_info[:description], invoice_name)
       end
@@ -73,7 +73,7 @@ require 'selenium-webdriver'
 require 'yaml'
 require 'sendgrid-ruby'
 require 'json'
-require 'pry' unless ENV['ENV'] == 'production'
+require 'pry' unless ENV['APP_ENV'] == 'production'
 
 require_relative 'automatic_sat/logger'
 require_relative 'automatic_sat/driver'
