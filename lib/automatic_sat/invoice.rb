@@ -29,8 +29,7 @@ class AutomaticSat::Invoice
   end
 
   def visit_main_invoice_page
-    driver.navigate.to ENV['SAT_HOME_PAGE_URL']
-    driver.find_element(css: 'a[alt="/personas/factura-electronica"]').click
+    driver.navigate.to ENV['SAT_HOME_PAGE_URL'] + 'empresas/factura-electronica'
     invoice_creation_link = driver.find_element(link_text: 'Genera tu factura')
     driver.execute_script("arguments[0].target='_self';", invoice_creation_link)
     invoice_creation_link.click
