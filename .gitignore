@@ -6,5 +6,6 @@ downloads/*
 .bundle/
 *.gem
 tags
+sendgrid.env
 invoices/*
 !invoices/sample.yml
