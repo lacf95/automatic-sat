@@ -8,5 +8,5 @@ args = ARGV
 file_iterator = AutomaticSat::FileIterator.new(args)
 
 file_iterator.iterate do |file_name|
-  AutomaticSat.new(file_name).generate_tax_return
+  AutomaticSat.new(file_name).generate_taxes_return
 end

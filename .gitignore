@@ -7,4 +7,5 @@ downloads/*
 *.gem
 tags
 invoices/*
+tax_returns/*
 !invoices/sample.yml
