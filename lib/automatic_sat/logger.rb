@@ -32,4 +32,22 @@ class AutomaticSat::Logger
       user_name, customer_name, amount
     )
   end
+
+  def self.tax_return_start(user_name, sales_revenue, paid_expenses)
+    format(
+      'AutomaticSat - Creating %s\'s tax return sales revenue %s MXN and paid_expenses of %s MXN',
+      user_name, sales_revenue, paid_expenses
+    )
+  end
+
+  def self.tax_return_end(user_name, sales_revenue, paid_expenses)
+    format(
+      'AutomaticSat - Created %s\'s tax return sales revenue %s MXN and paid_expenses of %s MXN',
+      user_name, sales_revenue, paid_expenses
+    )
+  end
+
+  def self.taxes(value)
+    format( 'AutomaticSat - You need to pay %s MXN :(', value)
+  end
 end

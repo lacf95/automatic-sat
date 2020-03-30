@@ -1,0 +1,9 @@
+# Sample return taxes file
+---
+- :rfc: your_rfc
+  :name: your_name
+  :email: your_email
+  :taxes_returns:
+      :period: Enero - Febrero
+      :sales_revenue: 18000
+      :paid_expenses: 5000

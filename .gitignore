@@ -8,4 +8,5 @@ downloads/*
 tags
 sendgrid.env
 invoices/*
+tax_returns/*
 !invoices/sample.yml

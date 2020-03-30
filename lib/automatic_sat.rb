@@ -25,6 +25,19 @@ class AutomaticSat
     end
   end
 
+  def generate_taxes_return
+    users.each do |user|
+      credentials = user_credentials(user)
+      user[:taxes_returns].each do |tax_return_info|
+        AutomaticSat::Logger.log.info(AutomaticSat::Logger.tax_return_start(user[:name], tax_return_info[:sales_revenue], tax_return_info[:paid_expenses]))
+        tax_return_amount = generate_tax_return(credentials, tax_return_info)
+        AutomaticSat::Logger.log.info(AutomaticSat::Logger.tax_return_end(user[:name], tax_return_info[:sales_revenue], tax_return_info[:paid_expenses]))
+        AutomaticSat::Logger.log.info(AutomaticSat::Logger.taxes(tax_return_amount))
+      end
+    end
+
+  end
+
   private
 
   def generate_invoice(credentials, invoice_info)
@@ -44,6 +57,26 @@ class AutomaticSat
       invoice_customer_name: invoice_info[:customer_name],
       invoice_description: invoice_info[:description],
       invoice_amount: invoice_info[:amount]
+    )
+  end
+
+  def generate_tax_return(credentials, tax_return_info)
+    driver = AutomaticSat::Driver.create
+    tax_return = new_tax_return(driver, credentials, tax_return_info)
+    tax_return_amount = tax_return.create
+    driver.quit
+    tax_return_amount
+  end
+
+  def new_tax_return(driver, credentials, tax_return_info)
+    AutomaticSat::TaxReturn.new(
+      driver,
+      certificate_path: credentials[:certificate_path],
+      private_key_path: credentials[:private_key_path],
+      private_key_password: credentials[:private_key_password],
+      period: tax_return_info[:period],
+      sales_revenue: tax_return_info[:sales_revenue],
+      paid_expenses: tax_return_info[:paid_expenses]
     )
   end
 
@@ -81,3 +114,4 @@ require_relative 'automatic_sat/invoice'
 require_relative 'automatic_sat/file_searcher'
 require_relative 'automatic_sat/file_iterator'
 require_relative 'automatic_sat/mailer'
+require_relative 'automatic_sat/tax_return'
